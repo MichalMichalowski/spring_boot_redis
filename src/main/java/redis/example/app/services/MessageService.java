@@ -20,4 +20,8 @@ public class MessageService {
     public List<Message> getMessages() {
         return messageRepository.getMessagesFromRedis();
     }
+
+    public List<Message> getByConversationId(Long id) {
+        return messageRepository.getMessagesFromRedisByConversation(id);
+    }
 }

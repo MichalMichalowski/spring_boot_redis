@@ -21,8 +21,13 @@ public class MessageController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Message>> getMessages(@RequestParam String key) {
+    public ResponseEntity<List<Message>> getMessages() {
         return ResponseEntity.ok(messageService.getMessages());
+    }
+
+    @GetMapping("/conv")
+    public ResponseEntity<List<Message>> getMessagesByConversationId(@RequestParam Long conversationId) {
+        return ResponseEntity.ok(messageService.getByConversationId(conversationId));
     }
 
 }

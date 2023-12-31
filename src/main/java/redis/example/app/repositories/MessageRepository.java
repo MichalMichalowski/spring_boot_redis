@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 import redis.example.app.models.Message;
+
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,15 @@ public class MessageRepository {
     public List<Message> getMessagesFromRedis() {
         List<Object> messageObjects = rdTemplate.opsForHash().values(msKey);
         return messageObjects.stream().map(this::convertToMessage).collect(Collectors.toList());
+    }
+
+    public List<Message> getMessagesFromRedisByConversation(Long id) {
+        List<Object> messageObjects = rdTemplate.opsForHash().values(msKey);
+        return messageObjects.stream()
+                .map(this::convertToMessage)
+                .filter(m -> m.getConversationId().equals(id))
+                .sorted(Comparator.comparing(Message::getSentAt).reversed())
+                .collect(Collectors.toList());
     }
 
     private Message convertToMessage(Object obj) {
