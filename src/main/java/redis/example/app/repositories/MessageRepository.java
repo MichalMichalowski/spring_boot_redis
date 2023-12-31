@@ -15,13 +15,12 @@ public class MessageRepository {
     private RedisTemplate<String, Object> rdTemplate;
     private static final String msKey = "MESSAGE";
 
-    public boolean saveMessageToRedis(Message message) {
+    public String saveMessageToRedis(Message message) {
         try {
             rdTemplate.opsForHash().put(msKey, message.getId().toString(), message);
-            return true;
+            return "Message succesfully sent";
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            return "Message not sent: "  + e.getMessage();
         }
     }
 

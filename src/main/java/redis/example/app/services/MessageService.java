@@ -14,8 +14,7 @@ public class MessageService {
     private MessageRepository messageRepository;
 
     public String postMessage(Message message) {
-        boolean isSuccesful = messageRepository.saveMessageToRedis(message);
-        return isSuccesful ? "Message succesfully sent" : "Message not sent";
+        return messageRepository.saveMessageToRedis(message);
     }
 
     public List<Message> getMessages() {
